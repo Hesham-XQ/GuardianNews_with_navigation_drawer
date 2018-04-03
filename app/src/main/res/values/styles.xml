@@ -1,0 +1,65 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="center_info">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="section_title_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/margin_6</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">@dimen/margin_6
+        </item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/list_item_text</item>
+    </style>
+
+    <style name="date_author_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd" tools:targetApi="jelly_bean_mr1">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">@dimen/margin_6
+        </item>
+        <item name="android:layout_marginRight">@dimen/margin_6</item>
+        <item name="android:layout_marginTop">@dimen/margin_4</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColor">@color/list_item_text</item>
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+    <!-- Style for EditTextPreference. -->
+    <style name="EditText">
+        <item name="android:defaultValue">@string/settings_search_query_default</item>
+        <item name="android:key">@string/settings_search_query_key</item>
+        <item name="android:title">@string/settings_search_query_label</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <!-- Style for ListPreference. -->
+    <style name="ListPref">
+        <item name="android:defaultValue">@string/settings_order_by_list_default</item>
+        <item name="android:key">@string/settings_order_by_list_key</item>
+        <item name="android:title">@string/settings_order_by_list_label</item>
+        <item name="android:entries">@array/settings_order_by_labels</item>
+    </style>
+
+</resources>

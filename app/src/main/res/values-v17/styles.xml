@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="date_author_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginEnd">@dimen/margin_6</item>
+        <item name="android:layout_marginRight">@dimen/margin_6</item>
+        <item name="android:layout_marginTop">@dimen/margin_4</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColor">@color/list_item_text</item>
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+
+</resources>
