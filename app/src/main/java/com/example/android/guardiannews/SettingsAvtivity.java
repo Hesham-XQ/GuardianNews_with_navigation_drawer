@@ -21,6 +21,8 @@ public class SettingsAvtivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
     }
 
+
+
     public static class SettingPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class SettingsAvtivity extends AppCompatActivity {
             String preferenceString = sharedPreferences.getString(preference.getKey(), "");
             onPreferenceChange(preference, preferenceString);
         }
+
 
 
         @Override
