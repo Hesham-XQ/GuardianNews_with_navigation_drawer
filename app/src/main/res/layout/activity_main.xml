@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.guardiannews.MainActivity"
+    >
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
@@ -6,6 +15,8 @@
     android:background="#c1c0c0"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -15,7 +26,9 @@
             android:id="@+id/search_results"
             style="@style/match"
             android:divider="@null"
-            android:dividerHeight="0dp"></ListView>
+            android:dividerHeight="0dp">
+
+        </ListView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
@@ -27,4 +40,15 @@
         android:id="@+id/progress_bar"
         style="@style/center_info" />
 
+
 </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_view"
+        />
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/world"
+            android:title="world" />
+        <item
+            android:id="@+id/sport"
+            android:title="sport" />
+        <item
+            android:id="@+id/football"
+            android:title="football" />
+        <item
+            android:id="@+id/culture"
+            android:title="culture" />
+        <item
+            android:id="@+id/business"
+            android:title="business" />
+
+        <item
+            android:id="@+id/fashion"
+            android:title="fashion" />
+        <item
+            android:id="@+id/technology"
+            android:title="technology" />
+        <item
+            android:id="@+id/travel"
+            android:title="travel" />
+        <item
+            android:id="@+id/money"
+            android:title="money" />
+        <item
+            android:id="@+id/science"
+            android:title="science" />
+    </group>
+</menu>

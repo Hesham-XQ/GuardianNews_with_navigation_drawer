@@ -1,7 +1,9 @@
 package com.example.android.guardiannews;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -11,6 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,6 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
+
+
     @BindView(R.id.empty_state_text)
     TextView noResultsView;
 
@@ -41,16 +47,80 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.drawer)
+    DrawerLayout drawer ;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView ;
+
     private ArrayList<News> newsArrayList = new ArrayList<News>();
     private NewsAdapter newsAdapter;
     private static LoaderManager loaderManager;
     private static final String API_INITIAL_QUERY = "https://content.guardianapis.com/search?";
-
+    private DrawerLayout draw;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        draw.closeDrawers();
+                        int itemId = menuItem.getItemId();
+
+                        switch (itemId) {
+                            case R.id.world:
+
+                                break;
+
+                            case R.id.sport:
+
+                                break;
+
+                            case R.id.football:
+
+                                break;
+                            case R.id.culture:
+
+                                break;
+                            case R.id.business:
+
+                                break;
+                            case R.id.fashion:
+
+                                break;
+
+                            case R.id.technology:
+
+                                break;
+                            case R.id.travel:
+
+                                break;
+                            case R.id.money:
+
+                                break;
+                            case R.id.science:
+
+                                break;
+                        }
+                        return true ;
+                    }
+                });
+
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -81,6 +151,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+  }
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
