@@ -2,35 +2,62 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/world"
-            android:title="world" />
+            android:id="@+id/fresh_news"
+            android:title="Fresh News"
+            android:icon="@drawable/ic_action_fresh_news"/>
         <item
             android:id="@+id/sport"
-            android:title="sport" />
+            android:title="Sport"
+            android:icon="@drawable/ic_action_achievement"/>
         <item
             android:id="@+id/football"
-            android:title="football" />
+            android:title="Football"
+            android:icon="@drawable/football"/>
         <item
-            android:id="@+id/culture"
-            android:title="culture" />
+            android:id="@+id/music"
+            android:title="Music"
+            android:icon="@drawable/ic_action_headphones" />
         <item
             android:id="@+id/business"
-            android:title="business" />
+            android:title="Business"
+            android:icon="@drawable/ic_action_business"/>
 
         <item
             android:id="@+id/fashion"
-            android:title="fashion" />
+            android:title="Fashion"
+            android:icon="@drawable/ic_fashion"/>
         <item
             android:id="@+id/technology"
-            android:title="technology" />
+            android:title="Technology"
+            android:icon="@drawable/ic_technology"/>
         <item
             android:id="@+id/travel"
-            android:title="travel" />
+            android:title="Travel"
+            android:icon="@drawable/ic_action_travel"/>
         <item
             android:id="@+id/money"
-            android:title="money" />
+            android:title="Money"
+            android:icon="@drawable/ic_attach_money"/>
+        <item
+            android:id="@+id/politics"
+            android:title="Politics"
+            android:icon="@drawable/ic_society"/>
         <item
             android:id="@+id/science"
-            android:title="science" />
+            android:title="Science"
+            android:icon="@drawable/ic_science"/>
+        <item
+            android:id="@+id/environment"
+            android:title="Environment"
+            android:icon="@drawable/ic_environment"/>
+        <item
+            android:id="@+id/society"
+            android:title="Society"
+            android:icon="@drawable/ic_society"/>
+        <item
+            android:id="@+id/culture"
+            android:title="Culture"
+            android:icon="@drawable/ic_account_balance"/>
+
     </group>
 </menu>

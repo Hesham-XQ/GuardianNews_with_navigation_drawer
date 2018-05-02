@@ -3,6 +3,7 @@ package com.example.android.guardiannews;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.os.Bundle;
 
 import java.util.List;
 
@@ -11,12 +12,12 @@ import java.util.List;
  */
 
 public class newsLoader extends AsyncTaskLoader<List<News>> {
-    private String urlString;
     private List<News> listInCacheMemory;
+    private final Bundle pBundle;
 
-    public newsLoader(Context context, String mUrlString) {
+    public newsLoader(Context context, Bundle bundle) {
         super(context);
-        urlString = mUrlString;
+        pBundle = bundle;
     }
 
     @Override
@@ -30,11 +31,13 @@ public class newsLoader extends AsyncTaskLoader<List<News>> {
 
     @Override
     public List<News> loadInBackground() {
-        if (urlString == null) {
-            return null;
+        List<News> newsList = null;
+        // If bundle has data get articles
+        if (pBundle != null) {
+            newsList = QueryUtils.getDataFromHttp(pBundle.getString("uri"));
         }
-        List<News> newsList = QueryUtils.getDataFromHttp(urlString);
         return newsList;
+
     }
 
     @Override

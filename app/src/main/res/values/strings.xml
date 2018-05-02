@@ -20,6 +20,14 @@
     <string name="settings_order_by_list_key">order-by</string>
     <string name="settings_order_by_list_default">newest</string>
 
+    <!-- Search Query for section -->
+    <string name="settings_section_label">Section:</string>
+    <string name="settings_section_key">sec</string>
+    <string name="settings_section_list_default">sport</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="section_key">section</string>
+
     <string-array name="settings_order_by_values">
         <item>newest</item>
         <item>oldest</item>
@@ -30,6 +38,29 @@
         <item>Newest</item>
         <item>Oldest</item>
         <item>Relevance</item>
+    </string-array>
+
+
+    <string-array name="settings_section_labels">
+        <item>All</item>
+        <item>Science</item>
+        <item>Politics</item>
+        <item>Fashion</item>
+        <item>Sport</item>
+        <item>Economics</item>
+        <item>World</item>
+        <item>Music</item>
+    </string-array>
+
+    <string-array name="settings_section_values">
+        <item>world</item>
+        <item>science</item>
+        <item>politics</item>
+        <item>fashion</item>
+        <item>sport</item>
+        <item>economics</item>
+        <item>world</item>
+        <item>music</item>
     </string-array>
 
 

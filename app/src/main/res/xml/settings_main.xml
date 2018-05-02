@@ -8,4 +8,8 @@
         style="@style/ListPref"
         android:entryValues="@array/settings_order_by_values" />
 
+    <ListPreference
+        style="@style/ListPref_section"
+        android:entryValues="@array/settings_section_values" />
+
 </PreferenceScreen>

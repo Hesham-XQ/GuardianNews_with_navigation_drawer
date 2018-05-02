@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +35,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
+
+    private ActionBarDrawerToggle mToggle ;
 
     @BindView(R.id.empty_state_text)
     TextView noResultsView;
@@ -56,15 +59,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private ArrayList<News> newsArrayList = new ArrayList<News>();
     private NewsAdapter newsAdapter;
     private static LoaderManager loaderManager;
-    private static final String API_INITIAL_QUERY = "https://content.guardianapis.com/search?";
-    private DrawerLayout draw;
+    private static final String API_INITIAL_QUERY = "https://content.guardianapis.com/search?" ;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
+        mToggle = new ActionBarDrawerToggle(this ,drawer , R.string.open , R.string.close) ;
+        drawer.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -73,47 +79,61 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
-                        draw.closeDrawers();
+                        drawer.closeDrawers();
                         int itemId = menuItem.getItemId();
 
                         switch (itemId) {
-                            case R.id.world:
-
+                            case R.id.fresh_news:
+                                swipeRefresh();
                                 break;
 
                             case R.id.sport:
-
+                                drawertouchHandle("sport");
                                 break;
 
                             case R.id.football:
-
+                                drawertouchHandle("football");
                                 break;
                             case R.id.culture:
-
+                                drawertouchHandle("culture");
                                 break;
                             case R.id.business:
-
+                                drawertouchHandle("business");
                                 break;
                             case R.id.fashion:
-
+                                drawertouchHandle("fashion");
                                 break;
 
                             case R.id.technology:
-
+                                drawertouchHandle("technology");
                                 break;
                             case R.id.travel:
-
+                                drawertouchHandle("travel");
                                 break;
                             case R.id.money:
-
+                                drawertouchHandle("money");
                                 break;
                             case R.id.science:
+                                drawertouchHandle("science");
+                                break;
 
+                            case R.id.environment:
+                                drawertouchHandle("environment");
+                                break;
+                            case R.id.music:
+                                drawertouchHandle("music");
+                                break;
+                            case R.id.politics:
+                                drawertouchHandle("politics");
+                                break;
+                            case R.id.society:
+                                drawertouchHandle("society");
                                 break;
                         }
                         return true ;
                     }
                 });
+
 
 
         if (getSupportActionBar() != null) {
@@ -125,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh();
+                swipeRefresh();
             }
         });
 
@@ -152,6 +172,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
+
+    private void drawertouchHandle(String section){
+        String sec = section ;
+        if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle( sec + " news");
+            }
+            handlequery(sec);
+        }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -164,18 +193,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 })
                 .setNegativeButton("No", null)
                 .show();
-  }
+    }
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String searchQuery = sharedPreferences.getString(getString(R.string.settings_search_query_key), getString(R.string.settings_search_query_default));
-        String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
+        return new newsLoader(this, args);
+    }
+
+
+    public void handlequery(String sec ){
         Uri baseIri = Uri.parse(API_INITIAL_QUERY);
         Uri.Builder uriBuilder = baseIri.buildUpon();
+        String section = sec ;
+        String orderBy = "newest" ;
 
-        uriBuilder.appendQueryParameter("q", searchQuery);
+        uriBuilder.appendQueryParameter("q", "");
+        uriBuilder.appendQueryParameter("section", section);
         uriBuilder.appendQueryParameter("use-date", "published");
         uriBuilder.appendQueryParameter("page-size", "50");
         uriBuilder.appendQueryParameter("order-by", orderBy);
@@ -184,8 +218,129 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("api-key", "test");
         Log.v("MainActivity", "Uri: " + uriBuilder);
 
-        return new newsLoader(this, uriBuilder.toString());
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            noResultsView.setText(getString(R.string.refresh));
+            progressBar.setVisibility(View.VISIBLE);
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            if (loaderManager != null) {
+                Bundle args = new Bundle();
+                args.putString("uri", uriBuilder.toString());
+                getLoaderManager().restartLoader(1, args, MainActivity.this);
+
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                initializeLoaderAndAdapter();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+        } else {
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            noResultsView.setText(getString(R.string.no_internet_connection_message));
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
     }
+    public void swipeRefresh( ){
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle( "Fresh News");
+        }
+        Uri baseIri = Uri.parse(API_INITIAL_QUERY);
+        Uri.Builder uriBuilder = baseIri.buildUpon();
+        String orderBy = "newest" ;
+
+        uriBuilder.appendQueryParameter("q", "");
+        uriBuilder.appendQueryParameter("use-date", "published");
+        uriBuilder.appendQueryParameter("page-size", "50");
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("show-fields", "thumbnail,short-url");
+        uriBuilder.appendQueryParameter("api-key", "test");
+        Log.v("MainActivity", "Uri: " + uriBuilder);
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            noResultsView.setText(getString(R.string.refresh));
+            progressBar.setVisibility(View.VISIBLE);
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            if (loaderManager != null) {
+                Bundle args = new Bundle();
+                args.putString("uri", uriBuilder.toString());
+                getLoaderManager().restartLoader(1, args, MainActivity.this);
+
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                initializeLoaderAndAdapter();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+        } else {
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            noResultsView.setText(getString(R.string.no_internet_connection_message));
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+
+    public void handlequery(String search ,String sec , String order){
+
+        Uri baseIri = Uri.parse(API_INITIAL_QUERY);
+        Uri.Builder uriBuilder = baseIri.buildUpon();
+        String searchQuery = search ;
+        String section = sec ;
+        String orderBy = order ;
+
+        uriBuilder.appendQueryParameter("q", searchQuery);
+        uriBuilder.appendQueryParameter("section", section);
+        uriBuilder.appendQueryParameter("use-date", "published");
+        uriBuilder.appendQueryParameter("page-size", "50");
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("show-fields", "thumbnail,short-url");
+        uriBuilder.appendQueryParameter("api-key", "test");
+        Log.v("MainActivity", "Uri: " + uriBuilder);
+
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            noResultsView.setText(getString(R.string.refresh));
+            progressBar.setVisibility(View.VISIBLE);
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            if (loaderManager != null) {
+                Bundle args = new Bundle();
+                args.putString("uri", uriBuilder.toString());
+                getLoaderManager().restartLoader(1, args, MainActivity.this);
+
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                initializeLoaderAndAdapter();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+        } else {
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            noResultsView.setText(getString(R.string.no_internet_connection_message));
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+    }
+
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> newsItems) {
@@ -221,6 +376,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsAvtivity.class);
@@ -229,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         if (id == R.id.action_refresh) {
-            refresh();
+            onPostResume();
             return true;
         }
 
@@ -238,36 +397,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     protected void onPostResume() {
+
         super.onPostResume();
-        refresh();
-    }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String searchQuery = sharedPreferences.getString(getString(R.string.settings_search_query_key), getString(R.string.settings_search_query_default));
+        String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
+        String section = sharedPreferences.getString(getString(R.string.section_key), getString(R.string.settings_section_list_default));
 
-    public void refresh() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        Log.v("MainActivity", "networkInfo: " + networkInfo);
-
-        if (networkInfo != null && networkInfo.isConnected()) {
-            noResultsView.setText(getString(R.string.refresh));
-            progressBar.setVisibility(View.VISIBLE);
-            if (newsAdapter != null) {
-                newsAdapter.clearAll();
-            }
-            if (loaderManager != null) {
-                loaderManager.restartLoader(1, null, this);
-                swipeRefreshLayout.setRefreshing(false);
-            } else {
-                initializeLoaderAndAdapter();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-        } else {
-            if (newsAdapter != null) {
-                newsAdapter.clearAll();
-            }
-            noResultsView.setText(getString(R.string.no_internet_connection_message));
-            swipeRefreshLayout.setRefreshing(false);
-        }
+        handlequery(searchQuery , section, orderBy );
     }
 
 }
