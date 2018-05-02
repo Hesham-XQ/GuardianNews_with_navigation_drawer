@@ -32,6 +32,9 @@ public class SettingsAvtivity extends AppCompatActivity {
             bindPreferenceToValue(searchQuery);
             Preference orderBy = findPreference(getString(R.string.settings_order_by_list_key));
             bindPreferenceToValue(orderBy);
+
+            Preference section = findPreference(getString(R.string.section_key));
+            bindPreferenceToValue(section);
         }
 
         private void bindPreferenceToValue(Preference preference) {

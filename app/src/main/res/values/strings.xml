@@ -11,6 +11,7 @@
     <string name="list_author">Contributor name</string>
     <string name="settings_title">Settings</string>
     <string name="settings_menu_item">Settings</string>
+
     <!-- Search Query for EditTextPreferences -->
     <string name="settings_search_query_label">Search for: </string>
     <string name="settings_search_query_key">query</string>
@@ -22,8 +23,7 @@
 
     <!-- Search Query for section -->
     <string name="settings_section_label">Section:</string>
-    <string name="settings_section_key">sec</string>
-    <string name="settings_section_list_default">sport</string>
+    <string name="settings_section_list_default">all</string>
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="section_key">section</string>
@@ -53,7 +53,7 @@
     </string-array>
 
     <string-array name="settings_section_values">
-        <item>world</item>
+        <item>@null</item>
         <item>science</item>
         <item>politics</item>
         <item>fashion</item>

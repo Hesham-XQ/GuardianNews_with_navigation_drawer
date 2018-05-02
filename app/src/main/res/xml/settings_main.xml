@@ -10,6 +10,7 @@
 
     <ListPreference
         style="@style/ListPref_section"
-        android:entryValues="@array/settings_section_values" />
+        android:entryValues="@array/settings_section_values"
+        />
 
 </PreferenceScreen>

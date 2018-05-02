@@ -68,13 +68,9 @@
         <item name="android:defaultValue">@string/settings_section_list_default</item>
         <item name="android:key">@string/section_key</item>
         <item name="android:title">@string/settings_section_label</item>
-        <!---->
-        <!--<item name="android:defaultValue">sport</item>-->
-        <!--<item name="android:key">section</item>-->
-        <!--<item name="android:title">sec :</item>-->
-
         <item name="android:entries">@array/settings_section_labels</item>
 
     </style>
+
 
 </resources>
