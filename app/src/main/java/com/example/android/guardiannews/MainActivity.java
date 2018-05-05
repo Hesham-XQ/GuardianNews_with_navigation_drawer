@@ -306,11 +306,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    private void handleAllSections(String searchWord , String order){
+    private void handleAllSections(String searchWord, String order) {
         Uri baseIri = Uri.parse(API_INITIAL_QUERY);
         Uri.Builder uriBuilder = baseIri.buildUpon();
         String orderBy = order;
-        String search = searchWord ;
+        String search = searchWord;
         uriBuilder.appendQueryParameter("q", search);
         uriBuilder.appendQueryParameter("use-date", "published");
         uriBuilder.appendQueryParameter("page-size", "50");
@@ -450,15 +450,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
             String section = sharedPreferences.getString(getString(R.string.section_key), getString(R.string.settings_section_list_default));
 
-            if (section.equals("all")){
-                handleAllSections(searchQuery , orderBy);
-            }
-            else {
+            if (section.equals("all")) {
+                handleAllSections(searchQuery, orderBy);
+            } else {
                 handlequery(searchQuery, section, orderBy);
             }
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
