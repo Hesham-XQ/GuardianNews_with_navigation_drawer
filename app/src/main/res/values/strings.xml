@@ -53,7 +53,7 @@
     </string-array>
 
     <string-array name="settings_section_values">
-        <item>@null</item>
+        <item>all</item>
         <item>science</item>
         <item>politics</item>
         <item>fashion</item>

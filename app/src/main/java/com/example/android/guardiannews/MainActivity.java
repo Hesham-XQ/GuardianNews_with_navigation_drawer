@@ -171,6 +171,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
 
         });
+
+
+        swipeRefresh();
+
     }
 
 
@@ -223,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("show-fields", "thumbnail,short-url");
-        uriBuilder.appendQueryParameter("api-key", "test");
+        uriBuilder.appendQueryParameter("api-key", "76ec6279-63db-40ce-a885-db47d2d98e86");
         Log.v("MainActivity", "Uri: " + uriBuilder);
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -270,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("show-fields", "thumbnail,short-url");
-        uriBuilder.appendQueryParameter("api-key", "test");
+        uriBuilder.appendQueryParameter("api-key", "76ec6279-63db-40ce-a885-db47d2d98e86");
         Log.v("MainActivity", "Uri: " + uriBuilder);
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -302,6 +306,50 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
+    private void handleAllSections(String searchWord , String order){
+        Uri baseIri = Uri.parse(API_INITIAL_QUERY);
+        Uri.Builder uriBuilder = baseIri.buildUpon();
+        String orderBy = order;
+        String search = searchWord ;
+        uriBuilder.appendQueryParameter("q", search);
+        uriBuilder.appendQueryParameter("use-date", "published");
+        uriBuilder.appendQueryParameter("page-size", "50");
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("show-fields", "thumbnail,short-url");
+        uriBuilder.appendQueryParameter("api-key", "76ec6279-63db-40ce-a885-db47d2d98e86");
+        Log.v("MainActivity", "Uri: " + uriBuilder);
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            noResultsView.setText(getString(R.string.refresh));
+            progressBar.setVisibility(View.VISIBLE);
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            if (loaderManager != null) {
+                Bundle args = new Bundle();
+                args.putString("uri", uriBuilder.toString());
+                getLoaderManager().restartLoader(1, args, MainActivity.this);
+
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                initializeLoaderAndAdapter();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+        } else {
+            if (newsAdapter != null) {
+                newsAdapter.clearAll();
+            }
+            noResultsView.setText(getString(R.string.no_internet_connection_message));
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+    }
+
+
     public void handlequery(String search, String sec, String order) {
 
         Uri baseIri = Uri.parse(API_INITIAL_QUERY);
@@ -317,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("show-fields", "thumbnail,short-url");
-        uriBuilder.appendQueryParameter("api-key", "test");
+        uriBuilder.appendQueryParameter("api-key", "76ec6279-63db-40ce-a885-db47d2d98e86");
         Log.v("MainActivity", "Uri: " + uriBuilder);
 
 
@@ -397,7 +445,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         if (id == R.id.action_refresh) {
-            onPostResume();
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String searchQuery = sharedPreferences.getString(getString(R.string.settings_search_query_key), getString(R.string.settings_search_query_default));
+            String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
+            String section = sharedPreferences.getString(getString(R.string.section_key), getString(R.string.settings_section_list_default));
+
+            if (section.equals("all")){
+                handleAllSections(searchQuery , orderBy);
+            }
+            else {
+                handlequery(searchQuery, section, orderBy);
+            }
             return true;
         }
 
@@ -410,15 +468,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onPostResume();
         if (state != null) {
             newsSearchResultsListView.onRestoreInstanceState(state);
-        } else {
-
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String searchQuery = sharedPreferences.getString(getString(R.string.settings_search_query_key), getString(R.string.settings_search_query_default));
-            String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
-            String section = sharedPreferences.getString(getString(R.string.section_key), getString(R.string.settings_section_list_default));
-
-            handlequery(searchQuery, section, orderBy);
         }
+
+//        else
+//            {
+//
+//            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//            String searchQuery = sharedPreferences.getString(getString(R.string.settings_search_query_key), getString(R.string.settings_search_query_default));
+//            String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
+//            String section = sharedPreferences.getString(getString(R.string.section_key), getString(R.string.settings_section_list_default));
+//
+//            handlequery(searchQuery, section, orderBy);
+//        }
     }
 
 }
