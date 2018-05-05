@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -36,7 +37,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
 
-    private ActionBarDrawerToggle mToggle ;
+    private ActionBarDrawerToggle mToggle;
 
     @BindView(R.id.empty_state_text)
     TextView noResultsView;
@@ -51,15 +52,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     SwipeRefreshLayout swipeRefreshLayout;
 
     @BindView(R.id.drawer)
-    DrawerLayout drawer ;
+    DrawerLayout drawer;
 
     @BindView(R.id.nav_view)
-    NavigationView navigationView ;
+    NavigationView navigationView;
 
     private ArrayList<News> newsArrayList = new ArrayList<News>();
     private NewsAdapter newsAdapter;
     private static LoaderManager loaderManager;
-    private static final String API_INITIAL_QUERY = "https://content.guardianapis.com/search?" ;
+    private static final String API_INITIAL_QUERY = "https://content.guardianapis.com/search?";
+    Parcelable state;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mToggle = new ActionBarDrawerToggle(this ,drawer , R.string.open , R.string.close) ;
+        mToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
         drawer.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -130,10 +132,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                                 drawertouchHandle("society");
                                 break;
                         }
-                        return true ;
+                        return true;
                     }
                 });
-
 
 
         if (getSupportActionBar() != null) {
@@ -173,13 +174,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    private void drawertouchHandle(String section){
-        String sec = section ;
+    private void drawertouchHandle(String section) {
+        String sec = section;
         if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle( sec + " news");
-            }
-            handlequery(sec);
+            getSupportActionBar().setTitle(sec + " news");
         }
+        handlequery(sec);
+    }
+
+    @Override
+    protected void onPause() {
+        // Save ListView state @ onPause
+        state = newsSearchResultsListView.onSaveInstanceState();
+        super.onPause();
+    }
 
     @Override
     public void onBackPressed() {
@@ -202,11 +210,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    public void handlequery(String sec ){
+    public void handlequery(String sec) {
         Uri baseIri = Uri.parse(API_INITIAL_QUERY);
         Uri.Builder uriBuilder = baseIri.buildUpon();
-        String section = sec ;
-        String orderBy = "newest" ;
+        String section = sec;
+        String orderBy = "newest";
 
         uriBuilder.appendQueryParameter("q", "");
         uriBuilder.appendQueryParameter("section", section);
@@ -246,14 +254,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
     }
-    public void swipeRefresh( ){
+
+    public void swipeRefresh() {
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle( "Fresh News");
+            getSupportActionBar().setTitle("Fresh News");
         }
         Uri baseIri = Uri.parse(API_INITIAL_QUERY);
         Uri.Builder uriBuilder = baseIri.buildUpon();
-        String orderBy = "newest" ;
+        String orderBy = "newest";
 
         uriBuilder.appendQueryParameter("q", "");
         uriBuilder.appendQueryParameter("use-date", "published");
@@ -293,13 +302,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    public void handlequery(String search ,String sec , String order){
+    public void handlequery(String search, String sec, String order) {
 
         Uri baseIri = Uri.parse(API_INITIAL_QUERY);
         Uri.Builder uriBuilder = baseIri.buildUpon();
-        String searchQuery = search ;
-        String section = sec ;
-        String orderBy = order ;
+        String searchQuery = search;
+        String section = sec;
+        String orderBy = order;
 
         uriBuilder.appendQueryParameter("q", searchQuery);
         uriBuilder.appendQueryParameter("section", section);
@@ -376,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mToggle.onOptionsItemSelected(item)){
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
@@ -399,12 +408,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onPostResume() {
 
         super.onPostResume();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String searchQuery = sharedPreferences.getString(getString(R.string.settings_search_query_key), getString(R.string.settings_search_query_default));
-        String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
-        String section = sharedPreferences.getString(getString(R.string.section_key), getString(R.string.settings_section_list_default));
+        if (state != null) {
+            newsSearchResultsListView.onRestoreInstanceState(state);
+        } else {
 
-        handlequery(searchQuery , section, orderBy );
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String searchQuery = sharedPreferences.getString(getString(R.string.settings_search_query_key), getString(R.string.settings_search_query_default));
+            String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_list_key), getString(R.string.settings_order_by_list_default));
+            String section = sharedPreferences.getString(getString(R.string.section_key), getString(R.string.settings_section_list_default));
+
+            handlequery(searchQuery, section, orderBy);
+        }
     }
 
 }

@@ -51,7 +51,7 @@
         <item>World</item>
         <item>Music</item>
     </string-array>
- 
+
     <string-array name="settings_section_values">
         <item>@null</item>
         <item>science</item>
