@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
  */
 
 public class NewsAdapter extends ArrayAdapter<News> {
-
     private static final String LOG_TAG = "";
     private List<News> mNews;
 
@@ -32,7 +31,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
         private TextView title, date, authers, section;
         private ImageView thumbnail;
     }
-
 
     public NewsAdapter(@NonNull Context context, @NonNull List<News> news) {
         super(context, 0, news);

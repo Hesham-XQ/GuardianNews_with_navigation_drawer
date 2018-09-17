@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         int itemId = menuItem.getItemId();
 
                         switch (itemId) {
+                            case R.id.gold:
+                                goldActivity();
+                                break;
                             case R.id.fresh_news:
                                 swipeRefresh();
                                 break;
@@ -305,7 +308,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+public void goldActivity(){
+    Intent intent = new Intent(this,goldPrices.class);
+    startActivity(intent);
 
+}
     private void handleAllSections(String searchWord, String order) {
         Uri baseIri = Uri.parse(API_INITIAL_QUERY);
         Uri.Builder uriBuilder = baseIri.buildUpon();

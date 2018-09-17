@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by SAMO on 4/2/2018.
+ * Created by HeshamXQ on 4/2/2018.
  */
 
 public class SettingsAvtivity extends AppCompatActivity {

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1021792303935",
+    "firebase_url": "https://guardians-news.firebaseio.com",
+    "project_id": "guardians-news",
+    "storage_bucket": "guardians-news.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021792303935:android:70428f0c03fc6938",
+        "android_client_info": {
+          "package_name": "com.example.android.guardiannews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021792303935-55vudo2amdp3b8ihrtotslpqk7ombvrm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.guardiannews",
+            "certificate_hash": "ac8abbc2011300bfea9265a1fcee0848a32c61e5"
+          }
+        },
+        {
+          "client_id": "1021792303935-hsueacicvqbkoqprt5j6pflm9eagdohe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRJCVp9Bpk3xVtkQ_2JyQh9XzKzTOFRno"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021792303935-hsueacicvqbkoqprt5j6pflm9eagdohe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/gold_main_txt"
+                android:gravity="center_horizontal"
+                android:paddingBottom="20dp"
+                android:text=" Gold prices in EGYPT with daily update !! \n using Firebase Real Time Database" />
+        </TableRow>
+
+        <TableRow style="@style/row_blue">
+            <TextView
+                android:id="@+id/price24"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="عيار 24" />
+        </TableRow>
+
+        <TableRow style="@style/row">
+            <TextView
+                android:id="@+id/price22"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="عيار 22" />
+        </TableRow>
+
+        <TableRow style="@style/row_blue">
+            <TextView
+                android:id="@+id/price21"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="عيار 21" />
+        </TableRow>
+
+        <TableRow style="@style/row">
+            <TextView
+                android:id="@+id/price18"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="عيار 18" />
+        </TableRow>
+
+        <TableRow style="@style/row_blue">
+            <TextView
+                android:id="@+id/price14"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="عيار 14" />
+        </TableRow>
+
+        <TableRow style="@style/row">
+            <TextView
+                android:id="@+id/price12"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="عيار 12" />
+        </TableRow>
+
+        <TableRow style="@style/row_blue">
+            <TextView
+                android:id="@+id/price9"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="عيار 9" />
+        </TableRow>
+
+        <TableRow style="@style/row">
+            <TextView
+                android:id="@+id/pound"
+                style="@style/column_left" />
+            <TextView
+                style="@style/column_right"
+                android:text="الجنيه الذهب" />
+        </TableRow>
+
+    </TableLayout>
+</ScrollView>

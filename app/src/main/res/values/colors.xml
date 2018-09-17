@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="list_item_text">#464646</color>
     <color name="section_color">#f5a4cd</color>
+    <color name="gold_table_color">#cad7ed</color>
+    <color name="gold_main_txt">#c1c2c2</color>
 </resources>
